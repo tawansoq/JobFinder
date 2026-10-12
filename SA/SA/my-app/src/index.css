@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Sarabun", system-ui, sans-serif;
+  --color-brand: #0047ab;
+  --color-brand-soft: #b6d4f5;
+  --color-canvas: #eaf2ff;
+  --color-action: #4f6bff;
+}

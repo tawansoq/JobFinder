@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: manpower_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-manpower}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-manpower123}
+      POSTGRES_DB: ${DB_NAME:-manpower_system}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/manpower_system.sql:/docker-entrypoint-initdb.d/01_manpower_system.sql:ro
+volumes:
+  pgdata:
