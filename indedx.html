@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevJobs - แหล่งรวมงานไอทีและนักศึกษาฝึกงาน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style> body { font-family: 'Prompt', sans-serif; } </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-16 items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-indigo-600 text-white font-bold p-2 rounded-lg text-xl">IT</div>
+                <span class="font-bold text-xl text-indigo-900">DevJobs</span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-600">
+                <a href="index.html" class="text-indigo-600 font-semibold">ค้นหางาน</a>
+                <a href="companies.html" class="hover:text-indigo-600 transition">บริษัทไอที</a>
+                <a href="post-job.html" class="hover:text-indigo-600 transition">ลงประกาศงาน</a>
+                <a href="profile.html" class="hover:text-indigo-600 transition">โปรไฟล์ของฉัน</a>
+            </div>
+            <div class="flex items-center space-x-3">
+                <a href="login.html" class="text-slate-600 hover:text-indigo-600 text-sm font-medium">เข้าสู่ระบบ</a>
+                <a href="register.html" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition">สมัครสมาชิก</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Search -->
+    <header class="bg-gradient-to-r from-indigo-900 to-blue-800 text-white py-14 px-4 text-center">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-3">ค้นหาตำแหน่งงานไอทีและฝึกงานในฝันของคุณ</h1>
+        <p class="text-indigo-200 mb-6 text-sm sm:text-base">รวบรวมตำแหน่งงาน Developer, Tester, UX/UI และอื่นๆ อีกเพียบ</p>
+        <div class="max-w-3xl mx-auto bg-white p-3 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-3">
+            <input type="text" id="searchInput" placeholder="ค้นหาตามชื่องาน, ทักษะ หรือบริษัท..." class="flex-1 px-4 py-2 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-800 focus:outline-none">
+            <button onclick="filterJobs()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-xl text-sm font-medium shadow">ค้นหา</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-slate-900">ตำแหน่งงานล่าสุด</h2>
+            <span id="jobCount" class="text-sm text-slate-500 font-medium">กำลังโหลด...</span>
+        </div>
+        <div id="jobContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <div id="noResult" class="hidden text-center py-16 text-slate-500">ไม่พบตำแหน่งงานที่คุณค้นหา</div>
+    </main>
+
+    <!-- Modal: รายละเอียดงานเชิงลึก -->
+    <div id="jobModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('jobModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-sm text-slate-500">
+        <p>&copy; 2026 DevJobs Platform. โปรเจกต์นักศึกษา IT</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const jobs = [
+            {
+                id: 1,
+                title: "Frontend Developer (React / Vue)",
+                company: "Tech Innovate Co., Ltd.",
+                location: "กรุงเทพฯ (Hybrid)",
+                salary: "35,000 - 50,000 ฿",
+                type: "Full-time",
+                logo: "🚀",
+                description: "พัฒนาเว็บแอปพลิเคชันด้วย React.js หรือ Next.js ร่วมมือกับทีม UI/UX และ Backend เพื่อสร้างประสบการณ์ใช้งานที่ดีที่สุด",
+                requirements: ["จบการศึกษาปริญญาตรี สาขา IT, Computer Science หรือเกี่ยวข้อง", "มีความเข้าใจ JavaScript, HTML5, CSS3 พื้นฐานดี", "มี Portfolio หรือโปรเจกต์ที่เคยทำจริง"]
+            },
+            {
+                id: 2,
+                title: "Software Engineering Intern",
+                company: "Siam Digital Solutions",
+                location: "กรุงเทพฯ (Remote ได้)",
+                salary: "12,000 - 15,000 ฿",
+                type: "Internship",
+                logo: "💡",
+                description: "เปิดรับนักศึกษาฝึกงานร่วมทีมพัฒนาระบบหลังบ้านและหน้าบ้าน ได้เรียนรู้การทำงานแบบ Agile และเทคโนโลยีสมัยใหม่",
+                requirements: ["กำลังศึกษาอยู่ชั้นปีที่ 3 หรือ 4 สาขา IT หรือคอมพิวเตอร์", "มีความกระตือรือร้นในการเรียนรู้สิ่งใหม่ๆ", "สามารถฝึกงานไม่น้อยกว่า 3 เดือน"]
+            },
+            {
+                id: 3,
+                title: "Junior Backend Developer",
+                company: "Cloudify Tech",
+                location: "เชียงใหม่ / Remote",
+                salary: "28,000 - 40,000 ฿",
+                type: "Remote",
+                logo: "☁️",
+                description: "พัฒนา RESTful API และระบบ Microservices ด้วย Node.js / Express และจัดการฐานข้อมูล PostgreSQL / MongoDB",
+                requirements: ["เข้าใจพื้นฐาน Database (SQL/NoSQL)", "มีความรู้เรื่อง Git และการทำงานเป็นทีม", "พร้อมเรียนรู้ระบบ Cloud (AWS/GCP)"]
+            }
+        ];
+
+        window.onload = () => displayJobs(jobs);
+
+        function displayJobs(jobList) {
+            const container = document.getElementById('jobContainer');
+            const noResult = document.getElementById('noResult');
+            const jobCount = document.getElementById('jobCount');
+            
+            container.innerHTML = '';
+            jobCount.innerText = `พบ ${jobList.length} ตำแหน่งงาน`;
+
+            if (jobList.length === 0) {
+                noResult.classList.remove('hidden');
+                return;
+            } else {
+                noResult.classList.add('hidden');
+            }
+
+            jobList.forEach(job => {
+                let badgeColor = 'bg-blue-50 text-blue-700';
+                if(job.type === 'Internship') badgeColor = 'bg-amber-50 text-amber-700';
+                if(job.type === 'Remote') badgeColor = 'bg-emerald-50 text-emerald-700';
+
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-2xl">${job.logo}</div>
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full ${badgeColor}">${job.type}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-slate-900 mb-1">${job.title}</h3>
+                        <p class="text-sm font-medium text-slate-600 mb-3">${job.company}</p>
+                        <div class="space-y-1 text-xs text-slate-500 mb-4">
+                            <p>📍 ${job.location}</p>
+                            <p class="font-semibold text-indigo-600">💰 ${job.salary}</p>
+                        </div>
+                    </div>
+                    <button onclick="openJobDetail(${job.id})" class="w-full bg-slate-100 hover:bg-indigo-600 hover:text-white text-slate-700 font-medium py-2 rounded-xl text-sm transition">
+                        ดูรายละเอียด
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterJobs() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = jobs.filter(j => j.title.toLowerCase().includes(keyword) || j.company.toLowerCase().includes(keyword) || j.description.toLowerCase().includes(keyword));
+            displayJobs(filtered);
+        }
+
+        function openJobDetail(id) {
+            const job = jobs.find(j => j.id === id);
+            let badgeColor = 'bg-blue-50 text-blue-700';
+            if(job.type === 'Internship') badgeColor = 'bg-amber-50 text-amber-700';
+            if(job.type === 'Remote') badgeColor = 'bg-emerald-50 text-emerald-700';
+
+            document.getElementById('modalContent').innerHTML = `
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-3xl">${job.logo}</div>
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">${job.title}</h2>
+                        <p class="text-slate-600 font-medium">${job.company}</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-6 text-sm">
+                    <span class="px-3 py-1 bg-slate-100 rounded-lg text-slate-600">📍 ${job.location}</span>
+                    <span class="px-3 py-1 bg-indigo-50 text-indigo-700 font-semibold rounded-lg">💰 ${job.salary}</span>
+                    <span class="px-3 py-1 rounded-lg font-semibold ${badgeColor}">${job.type}</span>
+                </div>
+                <div class="mb-6">
+                    <h4 class="font-bold text-slate-900 mb-2">รายละเอียดงาน:</h4>
+                    <p class="text-sm text-slate-600 leading-relaxed">${job.description}</p>
+                </div>
+                <div class="mb-8">
+                    <h4 class="font-bold text-slate-900 mb-2">คุณสมบัติผู้สมัคร:</h4>
+                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                        ${job.requirements.map(req => `<li>${req}</li>`).join('')}
+                    </ul>
+                </div>
+                <button onclick="alert('สมัครงานตำแหน่ง ${job.title} สำเร็จ!'); closeModal('jobModal');" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 rounded-xl transition text-sm shadow">
+                    สมัครงานเลย
+                </button>
+            `;
+            document.getElementById('jobModal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
