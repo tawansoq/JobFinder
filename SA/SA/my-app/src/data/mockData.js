@@ -1,0 +1,7 @@
+export const DEMO_JOBS = [
+  { id: 1, title: 'Frontend Developer', company: 'Bright Digital Co., Ltd.', location: 'กรุงเทพฯ (Hybrid)', type: 'Full-time', salary: '25,000–40,000 บาท', category: 'เทคโนโลยี', tags: ['React', 'JavaScript', 'CSS'], posted: 'วันนี้', description: 'ร่วมพัฒนาเว็บแอปพลิเคชันที่ใช้งานง่าย ทำงานร่วมกับทีม Product และ Design' },
+  { id: 2, title: 'UX/UI Designer', company: 'Mellow Studio', location: 'นนทบุรี', type: 'Full-time', salary: '22,000–35,000 บาท', category: 'ออกแบบ', tags: ['Figma', 'UI Design', 'UX Research'], posted: '2 วันที่แล้ว', description: 'ออกแบบประสบการณ์ดิจิทัลที่เข้าใจผู้ใช้และทำงานร่วมกับทีมพัฒนา' },
+  { id: 3, title: 'Junior Data Analyst', company: 'Northstar Analytics', location: 'กรุงเทพฯ (Hybrid)', type: 'Full-time', salary: '20,000–30,000 บาท', category: 'ข้อมูล', tags: ['SQL', 'Excel', 'Python'], posted: '3 วันที่แล้ว', description: 'วิเคราะห์ข้อมูล จัดทำรายงาน และช่วยทีมธุรกิจตัดสินใจจากข้อมูล' },
+  { id: 4, title: 'Marketing Coordinator', company: 'Everyday Market', location: 'นครปฐม', type: 'Full-time', salary: '18,000–25,000 บาท', category: 'การตลาด', tags: ['Social Media', 'Content', 'Analytics'], posted: '4 วันที่แล้ว', description: 'วางแผนคอนเทนต์ ประสานงานแคมเปญ และติดตามผลการตลาด' },
+  { id: 5, title: 'Backend Developer', company: 'Bright Digital Co., Ltd.', location: 'ทำงานทางไกล', type: 'Full-time', salary: '30,000–50,000 บาท', category: 'เทคโนโลยี', tags: ['Node.js', 'PostgreSQL', 'API'], posted: '5 วันที่แล้ว', description: 'ออกแบบและพัฒนา REST API รวมถึงปรับปรุงประสิทธิภาพของระบบ' }
+];
