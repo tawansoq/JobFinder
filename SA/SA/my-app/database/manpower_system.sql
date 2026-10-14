@@ -93,6 +93,15 @@ CREATE TABLE interviews (
   offered_salary INT,
   notes TEXT
 );
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+INSERT INTO users (full_name, email, password_hash, role) 
+VALUES (
+    'Frontend Dev', 
+    'fdev@gmail.com', 
+    crypt('fdev1234', gen_salt('bf', 10)), 
+    'candidate'
+);
 CREATE INDEX idx_candidates_location ON candidates(location);
 CREATE INDEX idx_applications_status ON applications(status);
 
