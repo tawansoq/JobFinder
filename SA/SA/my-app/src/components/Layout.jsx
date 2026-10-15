@@ -14,8 +14,8 @@ export function AppShell({ role }) {
   const { user, logout } = useAuth();
   const nav = useNavigate();
   const candidate = [['/jobs', 'ค้นหางาน', '⌕'], ['/matching', 'งานที่เหมาะกับฉัน', '✦'], ['/saved', 'งานที่บันทึก', '♡'], ['/applications', 'ติดตามใบสมัคร', '▤'], ['/profile', 'ประวัติของฉัน', '♙'], ['/community', 'ชุมชน', '▧']];
-  const company = [['/company', 'ภาพรวม', '⌂'], ['/company/profile', 'ข้อมูลบริษัท', '▣'], ['/company/jobs', 'ประกาศงานของฉัน', '▤'], ['/company/candidates', 'ค้นหาผู้สมัคร', '⌕'], ['/company/pipeline', 'ติดตามผู้สมัคร', '⇢'], ['/company/board', 'บอร์ดผู้สมัคร', '▦'], ['/company/report', 'รายงาน', '▥']];
-  const recruiter = [['/recruiter', 'ภาพรวม', '⌂'], ['/recruiter/candidates', 'ค้นหาผู้สมัคร', '⌕'], ['/recruiter/board', 'บอร์ดผู้สมัคร', '▦'], ['/recruiter/submissions', 'ส่งข้อมูลผู้สมัคร', '⇢'], ['/recruiter/report', 'รายงาน', '▥']];
+  const company = [['/company', 'ภาพรวม', '⌂'], ['/company/profile', 'ข้อมูลบริษัท', '▣'], ['/company/jobs', 'ประกาศงานของฉัน', '▤'], ['/company/pipeline', 'ติดตามผู้สมัคร', '⇢'], ['/company/board', 'บอร์ดผู้สมัคร', '▦'], ['/company/report', 'รายงาน', '▥']];
+  const recruiter = [['/recruiter', 'ภาพรวม', '⌂'], ['/recruiter/candidates', 'ค้นหาผู้สมัคร', '⌕'], ['/recruiter/interested', 'ผู้สมัครที่สนใจ', '♡'], ['/recruiter/board', 'บอร์ดผู้สมัคร', '▦'], ['/recruiter/submissions', 'ส่งข้อมูลผู้สมัคร', '⇢'], ['/recruiter/report', 'รายงาน', '▥']];
   const items = role === 'company' ? company : role === 'recruiter' ? recruiter : candidate;
   
   return (

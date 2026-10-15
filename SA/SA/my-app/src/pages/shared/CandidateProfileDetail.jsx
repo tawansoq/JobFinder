@@ -24,7 +24,9 @@ export default function CandidateProfileDetail() {
           <section className="panel profile-form">
             <h2>เกี่ยวกับผู้สมัคร</h2><p>{p.about || 'ยังไม่มีข้อมูลแนะนำตัว'}</p>
             <h3>ทักษะ</h3><div className="tag-row">{p.skills.map(s => <span className="tag" key={s}>{s}</span>)}</div>
-            <h3>ประสบการณ์</h3><p>{p.exp} · {p.position}</p>
+            <h3>ประสบการณ์</h3><p>{p.exp || p.experience || 'ยังไม่ได้ระบุ'} · {p.position}</p>
+            <h3>ประวัติการศึกษา</h3><p>{p.education || 'ยังไม่ได้ระบุ'}</p>
+            {p.resume?.name && <p>Resume: {p.resume.dataUrl ? <a href={p.resume.dataUrl} download={p.resume.name}>{p.resume.name} (ดาวน์โหลด)</a> : p.resume.name}</p>}
             <div className="notice">นี่คือข้อมูลตัวอย่างใน Frontend เท่านั้น ยังไม่ได้ดึงข้อมูลจาก Backend</div>
           </section>
         </div>

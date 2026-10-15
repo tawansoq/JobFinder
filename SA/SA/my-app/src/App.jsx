@@ -25,6 +25,7 @@ import SubmissionPage from './pages/recruiter/SubmissionPage';
 
 // หน้า Shared / ทั่วไป
 import CandidateSearch from './pages/shared/CandidateSearch';
+import InterestedCandidates from './pages/shared/InterestedCandidates';
 import CandidateProfileDetail from './pages/shared/CandidateProfileDetail';
 import CommunityPage from './pages/shared/CommunityPage';
 import PipelineBoard from './pages/shared/PipelineBoard';
@@ -61,7 +62,6 @@ export default function App() {
           <Route path="/company/jobs/edit/:id" element={<EditJobPage />} />
           <Route path="/company/profile" element={<CompanyProfilePage />} />
           <Route path="/company/board" element={<PipelineBoard />} />
-          <Route path="/company/candidates" element={<CandidateSearch />} />
           <Route path="/company/pipeline" element={<Pipeline />} />
           <Route path="/company/report" element={<ReportPage />} />
           <Route path="/candidates/:id" element={<CandidateProfileDetail />} />
@@ -71,6 +71,7 @@ export default function App() {
         <Route element={<Protected role="recruiter"><AppShell role="recruiter" /></Protected>}>
           <Route path="/recruiter" element={<RecruiterDashboard />} />
           <Route path="/recruiter/candidates" element={<CandidateSearch />} />
+          <Route path="/recruiter/interested" element={<InterestedCandidates />} />
           <Route path="/recruiter/submissions" element={<SubmissionPage />} />
           <Route path="/recruiter/board" element={<PipelineBoard />} />
           <Route path="/recruiter/report" element={<ReportPage />} />

@@ -18,7 +18,7 @@ function loadUniqueApplications() {
 
 export default function PipelineBoard() {
   const [apps, setApps] = useState(loadUniqueApplications);
-  const stages = ['สมัครงาน', 'Pre-screen', 'ส่งลูกค้า', 'นัดสัมภาษณ์', 'ผ่านสัมภาษณ์', 'เริ่มงาน'];
+  const stages = ['สมัครงาน', 'Pre-screen', 'ส่งลูกค้า', 'นัดสัมภาษณ์', 'ผ่านสัมภาษณ์', 'ไม่ผ่าน', 'เริ่มงาน'];
   
   function update(a, status) {
     const next = apps.map(x => String(x.id) === String(a.id) ? { ...x, status, updatedAt: new Date().toISOString() } : x);

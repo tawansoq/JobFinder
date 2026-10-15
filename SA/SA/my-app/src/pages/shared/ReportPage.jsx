@@ -10,24 +10,26 @@ export default function ReportPage() {
   const [filterPeriod, setFilterPeriod] = useState('all'); 
   
   const filteredApps = useMemo(() => {
-      if(filterPeriod === 'all') return allApps;
-      const now = new Date();
-      return allApps.filter(a => {
-          if(!a.date) return false;
-          const appDate = new Date(a.date);
-          const diffTime = Math.abs(now - appDate);
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-          if(filterPeriod === 'daily') return diffDays <= 1;
-          if(filterPeriod === 'weekly') return diffDays <= 7;
-          if(filterPeriod === 'monthly') return diffDays <= 30;
-          return true;
-      });
+    if (filterPeriod === 'all') return allApps;
+    const now = new Date();
+    const start = new Date(now);
+    if (filterPeriod === 'daily') start.setHours(0, 0, 0, 0);
+    if (filterPeriod === 'weekly') { const day = (start.getDay() + 6) % 7; start.setDate(start.getDate() - day); start.setHours(0, 0, 0, 0); }
+    if (filterPeriod === 'monthly') { start.setDate(1); start.setHours(0, 0, 0, 0); }
+    return allApps.filter(a => {
+      const raw = a.date || a.appliedAt || a.createdAt;
+      if (!raw) return false;
+      const d = new Date(raw);
+      return !Number.isNaN(d.getTime()) && d >= start && d <= now;
+    });
   }, [allApps, filterPeriod]);
 
   const rows = [
     ['ใบสมัครทั้งหมด', filteredApps.length],
     ['ผ่านสัมภาษณ์', filteredApps.filter(a => a.status === 'ผ่านสัมภาษณ์').length],
-    ['รอพิจารณา', filteredApps.filter(a => !['ผ่านสัมภาษณ์', 'เริ่มงาน'].includes(a.status)).length]
+    ['รอพิจารณา', filteredApps.filter(a => !['ไม่ผ่าน', 'ผ่านสัมภาษณ์', 'เริ่มงาน'].includes(a.status)).length],
+    ['ไม่ผ่าน', filteredApps.filter(a => a.status === 'ไม่ผ่าน' || a.interviewResult === 'ไม่ผ่าน').length],
+    ['เริ่มงาน', filteredApps.filter(a => a.status === 'เริ่มงาน').length]
   ];
   
   const csv = [['รายการ', 'จำนวน'], ...rows].map(r => r.map(v => '"' + String(v).replaceAll('"', '""') + '"').join(',')).join('\r\n');
@@ -66,7 +68,7 @@ export default function ReportPage() {
             </div>
           ))}
         </div>
-        <p className="auth-note">รายงานนี้เป็นข้อมูล Frontend สำหรับทดลองเท่านั้น ไม่ใช่สถิติจากฐานข้อมูลส่วนกลาง</p>
+        <p className="auth-note">ช่วงรายวันนับตั้งแต่เที่ยงคืนวันนี้, รายสัปดาห์นับตั้งแต่วันจันทร์ของสัปดาห์นี้ และรายเดือนนับตั้งแต่วันที่ 1 ของเดือนนี้ ข้อมูลเป็นข้อมูล Frontend สำหรับทดลอง</p>
       </div>
     </>
   );
