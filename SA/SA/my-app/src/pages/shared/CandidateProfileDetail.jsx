@@ -13,8 +13,8 @@ export default function CandidateProfileDetail() {
   const p = profiles.find(x => String(x.id) === String(id));
   return (
     <>
-      <PageTitle eyebrow="CANDIDATE PROFILE" title="โปรไฟล์ผู้สมัคร" description="ข้อมูลตัวอย่างสำหรับทดลองดูรายละเอียดผู้สมัคร" action={<Link className="btn btn-outline" to="-1" onClick={e => { e.preventDefault(); window.history.back() }}>← กลับ</Link>} />
-      {!p ? <Empty title="ไม่พบโปรไฟล์" text="โปรไฟล์นี้ไม่มีอยู่ในข้อมูลตัวอย่าง" /> : 
+      <PageTitle eyebrow="CANDIDATE PROFILE" title="โปรไฟล์ผู้สมัคร" description="รายละเอียดและคุณสมบัติของผู้สมัคร" action={<Link className="btn btn-outline" to="-1" onClick={e => { e.preventDefault(); window.history.back() }}>← กลับ</Link>} />
+      {!p ? <Empty title="ไม่พบโปรไฟล์" text="ไม่พบข้อมูลผู้สมัครนี้" /> : 
         <div className="profile-layout">
           <section className="panel profile-summary">
             <div className="profile-avatar">{p.name.charAt(0)}</div><h2>{p.name}</h2><p>{p.position}</p><span className="status-pill">เปิดรับโอกาส</span>
@@ -27,7 +27,7 @@ export default function CandidateProfileDetail() {
             <h3>ประสบการณ์</h3><p>{p.exp || p.experience || 'ยังไม่ได้ระบุ'} · {p.position}</p>
             <h3>ประวัติการศึกษา</h3><p>{p.education || 'ยังไม่ได้ระบุ'}</p>
             {p.resume?.name && <p>Resume: {p.resume.dataUrl ? <a href={p.resume.dataUrl} download={p.resume.name}>{p.resume.name} (ดาวน์โหลด)</a> : p.resume.name}</p>}
-            <div className="notice">นี่คือข้อมูลตัวอย่างใน Frontend เท่านั้น ยังไม่ได้ดึงข้อมูลจาก Backend</div>
+
           </section>
         </div>
       }

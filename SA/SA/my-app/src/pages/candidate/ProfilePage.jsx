@@ -33,7 +33,7 @@ export default function ProfilePage() {
     login(next);
     const users = read('jobfinder_users', []).map(u => u.email === user.email ? { ...u, ...next } : u);
     save('jobfinder_users', users);
-    setMsg('บันทึกโปรไฟล์ในเบราว์เซอร์แล้ว');
+    setMsg('บันทึกโปรไฟล์เรียบร้อยแล้ว');
   }
   
   return (

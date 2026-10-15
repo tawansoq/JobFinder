@@ -1,51 +1,60 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { PageTitle } from '../../components/SharedComponents';
+import { PageTitle, Empty } from '../../components/SharedComponents';
 import { read, save } from '../../utils/storage';
 
-const applicationKey = a => `${String(a.candidateEmail || a.email || a.name || a.candidateName || 'unknown').trim().toLowerCase()}::${String(a.jobId ?? a.jobTitle ?? 'unknown').trim().toLowerCase()}`;
+const stages = ['ส่งลูกค้า', 'Pre-screen', 'นัดสัมภาษณ์', 'ผ่านสัมภาษณ์', 'ไม่ผ่าน', 'เริ่มงาน'];
+const submissionKey = item => `${String(item.candidateId ?? item.candidateName ?? '').trim().toLowerCase()}::${String(item.positionId ?? item.jobTitle ?? '').trim().toLowerCase()}::${String(item.company ?? '').trim().toLowerCase()}`;
 
-function loadUniqueApplications() {
-  const combined = [...read('jobfinder_company_applications', []), ...read('jobfinder_applied', []).map(a => ({ ...a, name: a.candidateName || a.name || 'ผู้สมัคร', candidateEmail: a.candidateEmail || a.email, jobTitle: a.jobTitle || `งาน #${a.jobId}` }))];
+function loadSubmittedCandidates() {
+  const saved = read('jobfinder_submissions', []);
   const unique = new Map();
-  combined.forEach(a => {
-    const key = applicationKey(a);
-    if (!unique.has(key)) { unique.set(key, a) } 
-    else { const prev = unique.get(key); unique.set(key, { ...prev, ...a, status: a.status || prev.status, reason: a.reason || prev.reason, id: prev.id ?? a.id }) }
+  saved.forEach(item => {
+    const key = submissionKey(item);
+    const previous = unique.get(key);
+    // Keep the latest copy, but preserve a status already changed on the board.
+    unique.set(key, previous ? { ...item, ...previous, id: previous.id ?? item.id } : item);
   });
-  return [...unique.values()];
+  return [...unique.values()].map(item => ({
+    ...item,
+    name: item.candidateName || item.name || 'ผู้สมัคร',
+    candidateEmail: item.candidateEmail || item.email || '',
+    jobTitle: item.jobTitle || 'ไม่ระบุตำแหน่ง',
+    status: stages.includes(item.status) ? item.status : 'ส่งลูกค้า',
+  }));
 }
 
 export default function PipelineBoard() {
-  const [apps, setApps] = useState(loadUniqueApplications);
-  const stages = ['สมัครงาน', 'Pre-screen', 'ส่งลูกค้า', 'นัดสัมภาษณ์', 'ผ่านสัมภาษณ์', 'ไม่ผ่าน', 'เริ่มงาน'];
-  
-  function update(a, status) {
-    const next = apps.map(x => String(x.id) === String(a.id) ? { ...x, status, updatedAt: new Date().toISOString() } : x);
+  const [apps, setApps] = useState(loadSubmittedCandidates);
+
+  function update(application, status) {
+    const next = apps.map(item => String(item.id) === String(application.id) ? { ...item, status, updatedAt: new Date().toISOString() } : item);
     setApps(next);
-    save('jobfinder_company_applications', next);
-    save('jobfinder_applied', read('jobfinder_applied', []).map(x => String(x.id) === String(a.id) ? { ...x, status, updatedAt: new Date().toISOString() } : x));
+    save('jobfinder_submissions', next);
   }
-  
-  return (
-    <>
-      <PageTitle eyebrow="HIRING PIPELINE" title="บอร์ดติดตามผู้สมัคร" description="ภาพรวมผู้สมัครแยกตามขั้นตอนการคัดเลือก" action={<Link className="btn btn-outline" to="/company/pipeline">มุมมองตาราง</Link>} />
-      <div className="pipeline-board">
-        {stages.map(stage => (
-          <section className="pipeline-column" key={stage}>
-            <header><b>{stage}</b><span>{apps.filter(a => (a.status || 'สมัครงาน') === stage).length}</span></header>
-            {apps.filter(a => (a.status || 'สมัครงาน') === stage).map(a => (
-              <article className="panel pipeline-card" key={a.id}>
-                <b>{a.name || a.candidateName || 'ผู้สมัคร'}</b><p>{a.jobTitle || 'ไม่ระบุตำแหน่ง'}</p><small>{a.candidateEmail || ''}</small>
-                <select aria-label={'เปลี่ยนสถานะ ' + (a.name || a.candidateName)} value={a.status || 'สมัครงาน'} onChange={e => update(a, e.target.value)}>
-                  {stages.map(s => <option key={s}>{s}</option>)}
-                </select>
-              </article>
-            ))}
-          </section>
-        ))}
-      </div>
-      <p className="muted-note">การเปลี่ยนสถานะบันทึกใน localStorage เท่านั้น</p>
-    </>
-  );
+
+  return <>
+    <PageTitle eyebrow="HIRING PIPELINE" title="บอร์ดติดตามผู้สมัคร" description="แสดงเฉพาะผู้สมัครที่ Recruiter ส่งข้อมูลให้บริษัทแล้ว สามารถเปลี่ยนสถานะได้จากการ์ด" action={<Link className="btn btn-outline" to="/company/pipeline">มุมมองตาราง</Link>} />
+    {!apps.length ? <Empty title="ยังไม่มีผู้สมัครในบอร์ด" text="ผู้สมัครจะเข้ามาในบอร์ดหลังจากเลือกผู้สมัครที่สนใจและกดส่งข้อมูลในเมนู “ส่งข้อมูลผู้สมัคร”" action={<Link className="btn btn-primary" to="/recruiter/submissions">ไปหน้าส่งข้อมูลผู้สมัคร</Link>} /> : <div className="pipeline-board pipeline-board-all-stages">
+      {stages.map(stage => {
+        const stageApps = apps.filter(item => item.status === stage);
+        return <section className="pipeline-column" key={stage}>
+          <header><b>{stage}</b><span>{stageApps.length}</span></header>
+          {stageApps.map(item => <article className="panel pipeline-card" key={item.id}>
+            <b>{item.name}</b>
+            <p>{item.jobTitle}</p>
+            {item.company && <small>บริษัท: {item.company}</small>}
+            {item.candidateEmail && <small>{item.candidateEmail}</small>}
+            <label className="pipeline-status-label">สถานะ
+              <select aria-label={`เปลี่ยนสถานะ ${item.name}`} value={item.status} onChange={e => update(item, e.target.value)}>
+                {stages.map(value => <option key={value} value={value}>{value}</option>)}
+              </select>
+            </label>
+          </article>)}
+          {!stageApps.length && <p className="pipeline-empty-stage">ยังไม่มีผู้สมัคร</p>}
+        </section>;
+      })}
+    </div>}
+    <p className="muted-note">ข้อมูลบันทึกใน localStorage ของเบราว์เซอร์นี้เท่านั้น</p>
+  </>;
 }

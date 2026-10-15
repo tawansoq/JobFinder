@@ -100,7 +100,7 @@ export default function LoginPage() {
           {error && <div className="notice error">{error}</div>}
           <button className="btn btn-primary btn-wide" type="submit">{mode === 'login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก'} <span>→</span></button>
         </form>
-        <p className="auth-note">ทำงานแบบ Mock สำหรับทดสอบ Frontend (ไม่ติด CORS)</p>
+
       </div>
     </AuthLayout>
   );

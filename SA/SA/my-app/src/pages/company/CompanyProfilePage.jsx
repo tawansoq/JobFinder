@@ -10,7 +10,7 @@ export default function CompanyProfilePage() {
   
   function submit(e) {
     e.preventDefault();
-    save('jobfinder_company_profile', company); login({ ...user, company: company.name }); setMsg('บันทึกข้อมูลบริษัทไว้ในเบราว์เซอร์แล้ว');
+    save('jobfinder_company_profile', company); login({ ...user, company: company.name }); setMsg('บันทึกข้อมูลบริษัทเรียบร้อยแล้ว');
   }
   
   return (
@@ -31,7 +31,7 @@ export default function CompanyProfilePage() {
         <label>เกี่ยวกับบริษัท<textarea rows="5" value={company.about} onChange={e => setCompany({ ...company, about: e.target.value })} placeholder="แนะนำบริษัท วัฒนธรรม และสิ่งที่ทีมให้ความสำคัญ" /></label>
         {msg && <p className="success-message">{msg}</p>}
         <button className="btn btn-primary" type="submit">บันทึกข้อมูลบริษัท</button>
-        <p className="muted-note">ข้อมูลนี้เก็บในเบราว์เซอร์เครื่องนี้ ยังไม่ได้เชื่อมต่อ Backend</p>
+
       </form>
       <section className="panel company-preview">
         <h2>ตัวอย่างข้อมูลที่ผู้สมัครจะเห็น</h2><h3>{company.name || 'ชื่อบริษัทของคุณ'}</h3><p>{company.industry} · {company.location} · {company.size}</p>

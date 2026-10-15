@@ -15,7 +15,7 @@ export default function RecruiterDashboard() {
       </div>
       <div className="stats-grid">
         <Stat label="โปรไฟล์ตัวอย่าง" value={profiles.length || 4} sub="พร้อมค้นหา" icon="♙" />
-        <Stat label="ใบสมัครที่บันทึก" value={apps.length} sub="ข้อมูลในเบราว์เซอร์นี้" icon="▤" />
+        <Stat label="ใบสมัครที่บันทึก" value={apps.length} sub="ใบสมัครที่ได้รับ" icon="▤" />
         <Stat label="ผ่านการคัดเลือก" value={apps.filter(a => a.status === 'ผ่านสัมภาษณ์').length} sub="สถานะใบสมัคร" icon="✓" />
       </div>
       <div className="quick-links">

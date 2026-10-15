@@ -22,7 +22,7 @@ export default function CommunityPage() {
         <label htmlFor="post-draft">มีอะไรอยากแบ่งปันไหม?</label>
         <textarea id="post-draft" rows="3" value={draft} onChange={e => setDraft(e.target.value)} placeholder="เขียนโพสต์หรือแบ่งปันเคล็ดลับการทำงาน…" />
         <div className="compose-footer">
-          <span className="muted-note">โพสต์จะแสดงในเบราว์เซอร์นี้เท่านั้น</span>
+
           <button className="btn btn-primary" type="submit" disabled={!draft.trim()}>เผยแพร่โพสต์</button>
         </div>
       </form>

@@ -41,7 +41,7 @@ export default function ReportPage() {
   
   return (
     <>
-      <PageTitle eyebrow="RECRUITMENT REPORT" title="รายงานการสรรหา" description="ภาพรวมจากข้อมูลตัวอย่างและรายการที่บันทึกในเบราว์เซอร์" action={<button className="btn btn-primary" onClick={exportCSV}>↓ ส่งออก CSV</button>} />
+      <PageTitle eyebrow="RECRUITMENT REPORT" title="รายงานการสรรหา" description="ภาพรวมผลการสรรหาและสถานะใบสมัคร" action={<button className="btn btn-primary" onClick={exportCSV}>↓ ส่งออก CSV</button>} />
       
       <div className="filter-panel" style={{marginBottom: '1rem'}}>
           <label style={{marginRight: '1rem'}}><b>ช่วงเวลา:</b></label>
@@ -54,7 +54,7 @@ export default function ReportPage() {
       </div>
 
       <div className="stats-grid">
-        <Stat label="ตำแหน่งงานที่มองเห็น" value={jobs.length} sub="รวมงานตัวอย่างและงานที่เพิ่ม" icon="▤" />
+        <Stat label="ตำแหน่งงานที่มองเห็น" value={jobs.length} sub="รวมประกาศงานทั้งหมด" icon="▤" />
         <Stat label="ใบสมัคร (ตามช่วงเวลา)" value={filteredApps.length} sub={`คัดกรอง: ${filterPeriod}`} icon="♙" />
         <Stat label="ส่งข้อมูลผู้สมัคร" value={submissions.length} sub="ประวัติการเสนอผู้สมัคร" icon="⇢" />
       </div>
@@ -68,7 +68,7 @@ export default function ReportPage() {
             </div>
           ))}
         </div>
-        <p className="auth-note">ช่วงรายวันนับตั้งแต่เที่ยงคืนวันนี้, รายสัปดาห์นับตั้งแต่วันจันทร์ของสัปดาห์นี้ และรายเดือนนับตั้งแต่วันที่ 1 ของเดือนนี้ ข้อมูลเป็นข้อมูล Frontend สำหรับทดลอง</p>
+
       </div>
     </>
   );

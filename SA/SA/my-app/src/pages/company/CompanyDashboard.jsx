@@ -18,7 +18,7 @@ export default function CompanyDashboard() {
       <div className="stats-grid">
         <Stat label="ประกาศงานทั้งหมด" value={mine.length} sub="งานที่คุณสร้างในเครื่องนี้" icon="▤" />
         <Stat label="ผู้สมัคร" value={apps.length} sub="ใบสมัครตัวอย่าง" icon="♙" />
-        <Stat label="งานตัวอย่างในระบบ" value={jobs.length} sub="ข้อมูลสำหรับทดลองใช้งาน" icon="⌕" />
+        <Stat label="ตำแหน่งงานทั้งหมด" value={jobs.length} sub="ตำแหน่งงานที่แสดงในระบบ" icon="⌕" />
       </div>
       <div className="section-head"><div><h2>ประกาศงานล่าสุด</h2><p>งานที่คุณสร้างไว้</p></div><Link className="text-link" to="/company/jobs">ดูทั้งหมด →</Link></div>
       {mine.length ? 

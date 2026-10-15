@@ -27,7 +27,7 @@ export default function Pipeline() {
 
   return <>
     <PageTitle eyebrow="CANDIDATE PIPELINE" title="ติดตามผู้สมัคร" description="จัดการสถานะ นัดสัมภาษณ์ และผลการคัดเลือกของผู้สมัครแต่ละคน" />
-    <div className="notice">ข้อมูลในหน้านี้เก็บในเบราว์เซอร์เครื่องนี้ ยังไม่ได้เชื่อมต่อ Backend</div>
+
     {apps.length ? <div className="pipeline-list">{apps.map((a, index) => <article className="pipeline-card" key={a.id ?? applicationKey(a)}>
       <header className="pipeline-card-header"><div className="pipeline-person"><div className="profile-avatar small-avatar">{(a.name || a.candidateName || '?').charAt(0)}</div><div><h2>{a.name || a.candidateName || 'ผู้สมัคร'}</h2><p>{a.candidateEmail || 'ไม่ระบุอีเมล'}</p></div></div><span className="pipeline-index">ผู้สมัคร #{index + 1}</span></header>
       <div className="pipeline-job"><span>ตำแหน่งงาน</span><strong>{a.jobTitle || 'ไม่ระบุตำแหน่ง'}</strong></div>

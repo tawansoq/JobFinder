@@ -74,7 +74,7 @@ export default function CandidateSearch() {
       <div className="candidate-filter-footer"><span>เลือกได้หลายทักษะ เช่น React, SQL · สนใจแล้ว {interested.length} คน</span><button className="btn btn-outline btn-sm" onClick={resetFilters}>ล้างตัวกรอง</button></div>
     </section>
 
-    <div className="section-head candidate-results-head"><div><h2>ผลการค้นหาผู้สมัคร</h2><p>พบ {list.length} โปรไฟล์</p></div><span className="soft-label">ข้อมูล FE สำหรับทดลอง</span></div>
+    <div className="section-head candidate-results-head"><div><h2>ผลการค้นหาผู้สมัคร</h2><p>พบ {list.length} โปรไฟล์</p></div></div>
     <div className="candidate-grid">
       {list.map(p => {
         const isInterested = interested.some(item => String(item.id) === String(p.id));

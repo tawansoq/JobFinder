@@ -53,7 +53,7 @@ export default function JobsPage() {
     }];
     setApplied(next);
     save('jobfinder_applied', next);
-    setToast('บันทึกการสมัครแล้ว (ตัวอย่างในเบราว์เซอร์)');
+    setToast('บันทึกการสมัครเรียบร้อยแล้ว');
   }
   
   return (
